@@ -1,0 +1,32 @@
+Update Player
+Set Age= DATEDIFF(YY,Birthdate,GETDATE())
+----------------------------------------------------------------------------------------------------------
+Select p.PlayerID, p.FirstName + ' ' + p.LastName as YoungerPlayers
+From Player p inner join PlayerTeam pt on p.PlayerID=pt.PlayerID inner join Team t on pt.TeamID=t.TeamID
+Where p.FirstName not like '%nec%' and t.Name='Beşiktaş' and p.Age<(Select AVG(Age) From Player)
+----------------------------------------------------------------------------------------------------------
+Update Team
+Set City=City + ' #p' + convert(nvarchar,nopq.nop)+ ' #g' + CONVERT(nvarchar,nogq.nog)
+From Team t ,    (Select TeamID, Count(PlayerID) as nop
+								From PlayerTeam
+								Where Season='13-14'
+								Group By TeamID) as nopq,
+								(Select pt.TeamID,COUNT(g.MatchID) as nog
+								From PlayerTeam pt, Goals g
+								Where pt.PlayerID=g.PlayerID and pt.Season='13-14' 
+								Group by pt.TeamID) as nogq								
+Where t.TeamID=nopq.TeamID and nogq.TeamID=t.TeamID
+----------------------------------------------------------------------------------------------------------
+Select distinct TOP 10 p.PlayerID,p.FirstName,p.LastName, nogq.nog as NoOfGoals, (nopmq.nopm-nosmq.nosm) as DidNotScoredMatches, 1.0*nogq.nog/nosmq.nosm as NoOfAvgGoals
+From Player p, Goals g, (Select p.PlayerID, COUNT(m.MatchID) as nopm
+                        From Player p, Match m, PlayerTeam pt
+                        Where pt.TeamID in (m.HomeTeamID,m.VisitingTeamID) and p.PlayerID=pt.PlayerID and  pt.Season='13-14' 
+                        Group by p.PlayerID) as nopmq,
+                        (Select PlayerID, COUNT(distinct MatchID) as nosm
+                        From Goals g
+                        Group by PlayerID)as nosmq,
+                        (Select PlayerID, COUNT(MatchID) as nog
+                        From Goals
+                        Group By PlayerID)nogq
+Where p.PlayerID=g.PlayerID and p.PlayerID=nopmq.PlayerID and nopmq.PlayerID=nosmq.PlayerID and nogq.PlayerID=p.PlayerID
+Order by NoOfGoals desc

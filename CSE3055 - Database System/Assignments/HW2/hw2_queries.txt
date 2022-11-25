@@ -1,0 +1,23 @@
+Select fName, lName, birthDate, city
+From STUDENT
+----------------------------------------------------------------------------------------------------------------------------
+Select s.fName, s.lName, d.dName, sf.fName, sf.lName
+From STUDENT as s, DEPARTMENT as d, STAFF as sf, ADVISOR as a
+Where s.deptCode = d.deptCode and s.advisorID=a.staffID and a.staffID=sf.staffID
+Order by d.dName asc, s.lName
+----------------------------------------------------------------------------------------------------------------------------
+Select distinct s.fName, s.lName
+From STUDENT as s, DEPARTMENT as d
+Where s.deptCode=d.deptCode and d.dName = 'Computer Engineering'
+----------------------------------------------------------------------------------------------------------------------------
+Select *
+From Student
+Where fName like '%at%'
+----------------------------------------------------------------------------------------------------------------------------
+Select staffID, fName, lName
+From Staff
+Where isMarried=1 and noOfChildren >=2 and datediff(YY,birthdate,getdate())>=40
+----------------------------------------------------------------------------------------------------------------------------
+Select s.studentID, s.fName, s.lName, dpt.dName, d.dateOfGraduation
+From STUDENT as s, DEPARTMENT as dpt, DIPLOMA as d
+Where s.deptCode=dpt.deptCode and s.studentID=d.studentID and d.dateOfGraduation > '2010-05-21'

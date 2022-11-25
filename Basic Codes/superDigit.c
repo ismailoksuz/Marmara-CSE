@@ -1,0 +1,161 @@
+//ISMAIL OKSUZ
+//150119516
+
+#include<stdio.h>
+
+//I CREATED A FUNCTION TO GET NUMBER AS AN INPUT FROM THE USER
+int inputnumbercontroller(){
+	
+	//I DEFINED "NUMBER" AS AN INTEGER
+	int number;
+	
+	//I PRINTED THAT MESSAGE TO SAY THE USE THAT HE SHOULD ENTER A NUMBER
+	printf("Please enter a positive number: \n");
+	
+	//I ASSIGNED "NUMBER" WITH THE INPUT THAT CAME FROM THE USER
+	scanf("%d",&number);
+	
+	//I CREATED AN IF ELSE STRUCTURE TO KNOW WHETHER THE USER WILL ENTER A VALID VALUE			
+	if (number > 0)
+	
+		//IF USER WILL ENTER A VALID INPUT, THE PROGRAM WILL CONTINUE TO THE NEXT FUNCTION.
+		return repetationfactorcontroller(number);
+			
+	else
+	
+		//IF USER WILL ENTER AN INVALID INPUT, THE PROGRAM WILL GIVE WARNING TO THE USER 
+		printf("You entered an invalid value: \n");
+		
+		//AND ASK FOR A NEW VALUE WITH RECURSION
+		return inputnumbercontroller();	
+}
+
+//I CREATED A FUNCTION TO GET REPETATION FACTOR AS AN INPUT FROM THE USER 
+int repetationfactorcontroller(int a){
+	//A=VALUE THAT THE USER ENTERED 
+		
+	//I DEFINED "REPFACT" AS AN INTEGER
+	int repfact;	
+	
+	//I PRINTED THAT MESSAGE TO SAY THE USE THAT HE SHOULD ENTER A NUMBER
+	printf("Please enter a positive repetition factor: \n");
+	
+	//I ASSIGNED "REPFACT" WITH THE INPUT THAT CAME FROM THE USER
+	scanf("%d",&repfact);
+	
+	//I CREATED AN IF ELSE STRUCTURE TO KNOW WHETHER THE USER WILL ENTER A VALID VALUE				
+	if (repfact > 0)
+	
+		//IF USER WILL ENTER A VALID INPUT, THE PROGRAM WILL CONTINUE TO THE NEXT FUNCTION.
+		return numbercalculator(a,repfact);	
+		
+	else
+		
+		//IF USER WILL ENTER AN INVALID INPUT, THE PROGRAM WILL GIVE WARNING TO THE USER 
+		printf("You entered an invalid value: \n");
+		
+			//AND ASK FOR A NEW VALUE WITH RECURSION
+		return repetationfactorcontroller(a);
+}
+
+//I CREATED A FUNCTION TO CALCULATE THE SUM OF DIGITS 
+int numbercalculator(int a,int b){
+	
+	//I DEFINED NUMBER AS AN INTEGER AND GIVE IT TO THE SAME VALUE WITH A (INPUTTED NUMBER)
+	int number=a;
+		
+	//I DEFINED "i" AS AN INTEGER AND I GAVE IT A VALUE "0"
+	int remained=0;
+	
+	//I CREATED AN IF ELSE STRUCTURE TO FIND SUM OF DIGITS
+	if(number<10)
+	
+		//WHEN THE PROGRAM WILL FIND, IT WILL CONTINUE TO NEXT FUNCTION.
+		return sumofdigitscontroller(number*b,a,b);
+	else
+			
+			//THE PROGRAM WILL ASSIGN A NEW VALUE TO "REMAINED" UNTIL IT FIND THE SUM OF DIGITS
+			remained=remained+(number%10);
+			
+			//THE PROGRAM WILL DIVIDE "A" ("NUMBER") WITH 10 TO FIND ITS DIGITS
+			number=number/10;
+		
+		//I DEFINED "SUMOFNUMBERSDIGITS" AS AN INTEGER
+		int sumofnumbersdigits=remained+number;
+		
+		//THE PROGRAM WILL CONTINUE TO THE NEXT FUNCTION WHEN IT WILL PROVIDE THE CONDITION
+		return sumofdigitscontroller(sumofnumbersdigits*b,a,b);
+}
+
+//I CREATED A FUNCTION TO CALCULATE SUM OF DIGITS OF THE "SUMOFNUMBERSDIGITS"
+int sumofdigitscontroller(int a,int b,int c){
+	
+	//I DEFINED "SUMOFTOTAL" AS AN INTEGER AND GIVE IT THE SAME VALUE WITH "A"
+	int sumoftotal=a;
+	
+	//I DEFINED "REMAINED" AS AN INTEGER AND GIVE IT A VALUE "0"
+	int remained=0;
+	
+	//I CREATE AN IF ELSE STRUCTURE TO FIND SUM OF DIGITS OF THE "SUMOFNUMBERSDIGITS" UNTIL IT WILL HAVE SINGLE DIGIT 
+	if(sumoftotal<10)
+	
+		//IF IT PROVIDES THE CONDITIONS, THE PROGRAM WILL CONTINUE TO NEXT FUNCTION
+		return printer(a,b,c);
+	else
+			
+			//THE PROGRAM WILL ASSIGN A NEW VALUE TO "REMAINED" UNTIL IT WILL BE A NUMBER WITH SINGLE DIGIT
+			remained=remained+(sumoftotal%10);
+			
+			//THE PROGRAM WILL DIVIDE "SUMOFTOTAL" WITH 10 TO FIND IT
+			sumoftotal=sumoftotal/10;
+		
+		//"SUMOFTOTAL" WILL HAVE A NEW VALUE UNTIL IT WILL PROVIDE THE CONDITION
+		sumoftotal=remained+sumoftotal;
+		
+		//THE PROGRAM WILL CALL ITSELF AGAIN
+		return sumofdigitscontroller(sumoftotal,b,c);
+}
+
+//I CREATED A FUNCTION TO COMBINE THE REPETATION FACTOR AND NUMBER
+int combiner(int a,int b,int c){
+	
+	//I DEFINED COUNTER AS AN INTEGER AND GIVE IT THE VALUE OF "0" WHICH I CALL FROM THE OTHER FUNCTION
+	int counter=c;
+	
+	//I CREATE AN IF ELSE METHOD TO PROVIDE THE CONDITION
+	if(counter>=b)
+	
+		//WHEN IT FINISH, PROGRAM WILL BE END
+		return 0;
+		
+	//ELSE, I CREATED A RECURSION SYSTEM TO PRINT THAT
+	else
+		printf("%d",a);
+		counter=counter+1;
+		return combiner(a,b,counter);
+	
+}
+
+//I CREATED A FUNCTION TO PRINT SUPER DIGIT
+int printer(int  a,int b, int c){
+	
+	//I PRINT THE MESSAGE
+	printf("Super digit of number ");
+	
+	//I CALLED COMBINER BECAUSE COMBINER WILL COMBINE THE NUMBER AND REPETATION FACTOR
+	combiner(b,c,0);
+	
+	//CONTINUES TO PRINT THE MESSAGE...
+	printf(" is %d ",a);
+	
+}
+
+//I CREATED MAIN FUNCTION THERE
+int main(){
+	
+	//I CALLED THE FIRST FUNCTION THERE TO START THE PROGRAM
+	inputnumbercontroller();
+	
+	//THE PROGRAM WILL STOP WHEN IT PRINTS THE SUPER DIGITS OF NUMBER
+	return 0;
+}

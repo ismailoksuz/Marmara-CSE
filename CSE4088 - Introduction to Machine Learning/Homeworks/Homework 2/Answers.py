@@ -1,5 +1,0 @@
-import GeneralizationError
-import ThePerceptronLearningAlgorithm
-
-GeneralizationError
-ThePerceptronLearningAlgorithm
